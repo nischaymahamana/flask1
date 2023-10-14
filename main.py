@@ -1,8 +1,11 @@
 from flask import Flask, request, jsonify
 import firebase_admin
+from flask_cors import CORS
+from flask_cors import cross_origin
 from firebase_admin import credentials, auth
 
 app = Flask(__name__)
+cors = CORS(app)
 
 # Initialize Firebase Admin SDK with the service account key JSON file
 cred = credentials.Certificate({
@@ -22,8 +25,11 @@ cred = credentials.Certificate({
 firebase_admin.initialize_app(cred)
 
 # Register a user
-@app.route("/register", methods=["POST"])
+@app.route("/register", methods=["GET", "POST"])
+@cross_origin()
 def register():
+    if request.method == "GET":
+        return "No"
     try:
         data = request.get_json()
         email = data["email"]
@@ -34,8 +40,11 @@ def register():
         return jsonify({"error": str(e)})
 
 # Log in a user
-@app.route("/login", methods=["POST"])
+@app.route("/login", methods=["GET", "POST"])
+@cross_origin()
 def login():
+    if request.method == "GET":
+        return "No"
     try:
         data = request.get_json()
         email = data["email"]

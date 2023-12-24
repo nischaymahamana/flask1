@@ -56,7 +56,7 @@ def login():
 
 @app.route("/")
 def abcd():
-    return "BACKEND API"
+    return "BACKEND API running"
 
 
 if __name__ == "__main__":
